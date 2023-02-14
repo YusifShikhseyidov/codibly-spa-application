@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { handleDataFetch } from '../redux/productsSlice';
+import axios from 'axios';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,7 +19,6 @@ import { Alert, AlertTitle, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import axios from 'axios';
 
 const styleForModal={
   position: 'absolute',
@@ -62,8 +62,7 @@ export default function ProductsPreview(){
         id = prodID;
       }
   
-      const prod = await axios.get( id !== '0' ? `${api}/${id}` : `${api}?page=${navigation}&per_page=5`);
-    console.log(prod)
+      const prod = await axios.get( id !== '0' ? `${api}/${Number(id)}` : `${api}?page=${navigation}&per_page=5`);
   
       if(id === '0'){
         dispatch(handleDataFetch(prod.data.data));
@@ -84,7 +83,6 @@ export default function ProductsPreview(){
 
   useEffect(()=>{
     fetchData();
-    console.log(products)
   }, [fetchData]);
 
 
